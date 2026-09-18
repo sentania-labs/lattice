@@ -1,6 +1,6 @@
 <!-- @dsCard height=300 -->
 <!--
-  blocks: accent 196x260 at radius-xl; ink-subtle 124x124 and ok 124x124 at radius-lg, the ok block bleeding off the right edge.
+  blocks: accent 196x260 at radius-xl; ink-subtle 124x124 and ink 136x124 at radius-lg, the ink block bleeding off the right edge. State colours appear only as single tiles: they mean something, so they never carry identity.
   arrangement: one tall slab at the zone's left edge with two satellites above a tile field, so the right half reads as structure rather than a swatch row.
   pattern: tiles cut by the radius tokens, three merged two-wide like the components; chosen because this system is a dense table-and-form CSS layer for administrator tools, literally named for a grid, and its own cards and widgets merge across a column the same way.
   scales: pitch 32px (a 28px tile plus the space-4 gap), block sides multiples of space-7, radii radius-xl 9px, radius-lg 6px, radius-md 4px.
@@ -10,7 +10,7 @@
   .cover { display: block; width: 960px; height: 300px; background: var(--bg); }
   .slab   { fill: var(--accent);      rx: var(--radius-xl); }
   .sat-a  { fill: var(--ink-subtle);  rx: var(--radius-lg); }
-  .sat-b  { fill: var(--ok);          rx: var(--radius-lg); }
+  .sat-b  { fill: var(--ink);         rx: var(--radius-lg); }
   .tile   { rx: var(--radius-md); }
   .t-ink    { fill: var(--ink-subtle); }
   .t-accent { fill: var(--accent); }
