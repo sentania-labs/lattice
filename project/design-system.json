@@ -1,0 +1,25 @@
+{
+  "v": 3,
+  "layout": "files",
+  "createdOnFiles": {
+    "v": 1,
+    "at": "2026-09-18T12:04:04-05:00"
+  },
+  "title": "Lattice",
+  "namespace": "Lattice",
+  "libraries": [],
+  "sections": {},
+  "groups": [],
+  "assetGroups": {},
+  "blobs": {},
+  "docs": {
+    "readme": "project/README.md",
+    "sections": []
+  },
+  "lastChange": {
+    "by": "Scott",
+    "at": "2026-09-18T12:04:04-05:00",
+    "via": "Claude Code",
+    "note": "First build, extracted from vcf-cf-migrator uipage.py and preview.py"
+  }
+}
