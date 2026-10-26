@@ -11,7 +11,8 @@ The consumer supplies the element. These are classes on a real `<button>`, not
 a component, so keyboard behaviour, `disabled` and form submission are the
 browser's. Do not put them on an `<a>` unless it genuinely navigates.
 
-Colour comes from `accent` and `accent-strong` on hover. Borders are `line`,
+Colour comes from `accent` and `accent-strong` on hover, with the label in
+`on-accent` rather than a literal white. Borders are `line`,
 which is what keeps a row of default buttons quiet next to one primary.
 
 Derived from `uipage.py`, the `button`, `button.primary` and `button.ghost`
