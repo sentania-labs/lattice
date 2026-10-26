@@ -37,7 +37,7 @@ a { color: var(--accent); }
 .lat-btn--primary {
   background: var(--accent);
   border-color: var(--accent);
-  color: #ffffff;
+  color: var(--on-accent);
   font-weight: 600;
 }
 .lat-btn--primary:hover {

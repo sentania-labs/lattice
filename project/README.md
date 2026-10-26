@@ -54,6 +54,7 @@ an administrator staring at a VCF console all day is already in.
 | `bg` | `ink`, `ink-muted` |
 | `surface` | `ink`, `ink-muted`, `ink-subtle` for metadata |
 | `surface-sunken` | `ink`, `ink-muted` |
+| `accent`, `accent-strong` | `on-accent` |
 | `accent-soft` | `accent-ink` |
 | `ok-soft` | `ok-ink` |
 | `warn-soft` | `warn-ink` |
