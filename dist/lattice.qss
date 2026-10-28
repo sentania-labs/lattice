@@ -144,6 +144,8 @@ QPushButton[variant="primary"] {
 
 QPushButton[variant="primary"]:hover, QPushButton[variant="primary"]:pressed, QPushButton[variant="primary"]:checked {
   background: #1a4fa0;
+  color: #ffffff;
+  border-color: #1a4fa0;
 }
 
 QPushButton[variant="ghost"] {
@@ -153,17 +155,21 @@ QPushButton[variant="ghost"] {
 }
 
 QPushButton[variant="ghost"]:hover, QPushButton[variant="ghost"]:pressed, QPushButton[variant="ghost"]:checked {
-  background: #eef1f5;
+  background: #ffffff;
+  color: #1d2430;
+  border-color: #d9dee5;
 }
 
 QPushButton[variant="danger"] {
-  background: #fbe9e6;
-  color: #7f1d1d;
+  background: #a22c1c;
+  color: #ffffff;
   border-color: #a22c1c;
 }
 
 QPushButton[variant="danger"]:hover, QPushButton[variant="danger"]:pressed, QPushButton[variant="danger"]:checked {
-  background: #fbe9e6;
+  background: #a22c1c;
+  color: #ffffff;
+  border-color: #8b95a3;
 }
 
 QPushButton:focus, QPushButton[variant="primary"]:focus, QPushButton[variant="ghost"]:focus, QPushButton[variant="danger"]:focus {
@@ -202,6 +208,8 @@ QToolButton[variant="primary"] {
 
 QToolButton[variant="primary"]:hover, QToolButton[variant="primary"]:pressed, QToolButton[variant="primary"]:checked {
   background: #1a4fa0;
+  color: #ffffff;
+  border-color: #1a4fa0;
 }
 
 QToolButton[variant="ghost"] {
@@ -211,17 +219,21 @@ QToolButton[variant="ghost"] {
 }
 
 QToolButton[variant="ghost"]:hover, QToolButton[variant="ghost"]:pressed, QToolButton[variant="ghost"]:checked {
-  background: #eef1f5;
+  background: #ffffff;
+  color: #1d2430;
+  border-color: #d9dee5;
 }
 
 QToolButton[variant="danger"] {
-  background: #fbe9e6;
-  color: #7f1d1d;
+  background: #a22c1c;
+  color: #ffffff;
   border-color: #a22c1c;
 }
 
 QToolButton[variant="danger"]:hover, QToolButton[variant="danger"]:pressed, QToolButton[variant="danger"]:checked {
-  background: #fbe9e6;
+  background: #a22c1c;
+  color: #ffffff;
+  border-color: #8b95a3;
 }
 
 QToolButton:focus, QToolButton[variant="primary"]:focus, QToolButton[variant="ghost"]:focus, QToolButton[variant="danger"]:focus {

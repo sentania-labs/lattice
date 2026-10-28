@@ -1,6 +1,7 @@
 """Exercise token resolution and the generated public artifacts/CLI contract."""
 import importlib.util
 import json
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -38,6 +39,24 @@ class QtBuildTests(unittest.TestCase):
                 self.assertEqual(palette[group]['Highlight'], values['accent'])
                 self.assertEqual(palette[group]['HighlightedText'], values['on-accent'])
             self.assertEqual(palette['Disabled']['Text'], values['ink-subtle'])
+
+    def test_button_variants_mirror_web_css(self):
+        for theme in ('light', 'dark'):
+            values = build.resolve_tokens(self.tokens, theme)
+            rules = {}
+            for selectors, body in re.findall(r'([^{}]+)\{([^}]*)\}', build.stylesheet(self.tokens, theme)):
+                props = dict(line.strip().rstrip(';').split(': ', 1) for line in body.strip().splitlines())
+                for selector in selectors.split(','):
+                    rules.setdefault(selector.strip(), {}).update(props)
+            for widget in ('QPushButton', 'QToolButton'):
+                def state(variant, pseudo=''):
+                    return rules[f'{widget}[variant="{variant}"]{pseudo}']
+                self.assertEqual(state('danger'), dict(background=values['bad'], color='#ffffff', **{'border-color': values['bad']}))
+                for pseudo in (':hover', ':pressed', ':checked'):
+                    self.assertEqual(state('danger', pseudo), dict(background=values['bad'], color='#ffffff', **{'border-color': values['ink-subtle']}))
+                    self.assertEqual(state('ghost', pseudo), dict(background=values['surface'], color=values['ink'], **{'border-color': values['line']}))
+                    self.assertEqual(state('primary', pseudo)['background'], values['accent-strong'])
+                self.assertEqual(state('ghost'), dict(background='transparent', color=values['ink-muted'], **{'border-color': 'transparent'}))
 
     def test_cli_generates_checks_and_rejects_stale_artifacts(self):
         with tempfile.TemporaryDirectory() as directory:

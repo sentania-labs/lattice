@@ -133,7 +133,7 @@ and semantic containers require properties.
 
 | Lattice component | Qt widget / property |
 | --- | --- |
-| Button | `QPushButton`, `QToolButton`; `variant="primary"`, `"ghost"`, or `"danger"`; no property for default. Hover, pressed, checked, focus, disabled supported. Danger uses `bad-soft`/`bad-ink` with a `bad` border. |
+| Button | `QPushButton`, `QToolButton`; `variant="primary"`, `"ghost"`, or `"danger"`; no property for default. Hover, pressed, checked, focus, disabled supported. Variants mirror `.lat-btn--primary`, `--ghost` and `--danger`; danger is solid `bad` with white text and an `ink-subtle` border on hover, pressed and checked. |
 | Card | `QFrame`, `lattice="card"`. Set layout contents margins to 16px and spacing to 8px; QSS does not set layout gaps. |
 | Form | `QLineEdit`, `QTextEdit`, `QPlainTextEdit`, `QComboBox`, spin/date/time boxes; `QCheckBox` and `QRadioButton` retain native indicators, including partial checks. |
 | Form labels / hints | `QLabel`, `lattice="label"` or `"hint"`; hints accept `status="bad"`. |

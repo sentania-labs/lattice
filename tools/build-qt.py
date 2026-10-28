@@ -99,14 +99,18 @@ def stylesheet(tokens: dict, theme: str) -> str:
              border_radius=t['radius-lg'], padding=f"{t['space-3']} {t['space-6']}")
         rule(widget + ':hover', background=t['surface-sunken'], border_color=t['ink-subtle'])
         rule(widget + ':pressed, ' + widget + ':checked', background=t['accent-soft'], color=t['accent-ink'])
-        for variant in ('primary', 'ghost', 'danger'):
+        variants = {
+            'primary': (dict(background=t['accent'], color=t['on-accent'], border_color=t['accent']),
+                        dict(background=t['accent-strong'], color=t['on-accent'], border_color=t['accent-strong'])),
+            'ghost': (dict(background='transparent', color=t['ink-muted'], border_color='transparent'),
+                      dict(background=t['surface'], color=t['ink'], border_color=t['line'])),
+            'danger': (dict(background=t['bad'], color='#ffffff', border_color=t['bad']),
+                       dict(background=t['bad'], color='#ffffff', border_color=t['ink-subtle'])),
+        }
+        for variant, (rest, active) in variants.items():
             sel = f'{widget}[variant="{variant}"]'
-            bg, fg = {'primary': ('accent', 'on-accent'), 'ghost': ('surface', 'ink-muted'),
-                      'danger': ('bad-soft', 'bad-ink')}[variant]
-            rule(sel, background='transparent' if variant == 'ghost' else t[bg],
-                 color=t[fg], border_color='transparent' if variant == 'ghost' else t['bad' if variant == 'danger' else bg])
-            rule(sel + ':hover, ' + sel + ':pressed, ' + sel + ':checked',
-                 background=t['accent-strong' if variant == 'primary' else 'surface-sunken' if variant == 'ghost' else 'bad-soft'])
+            rule(sel, **rest)
+            rule(sel + ':hover, ' + sel + ':pressed, ' + sel + ':checked', **active)
         # Repeat variant specificity so disabled/focus always override variants.
         selectors = [widget] + [f'{widget}[variant="{v}"]' for v in ('primary', 'ghost', 'danger')]
         rule(', '.join(s + ':focus' for s in selectors), border_color=t['focus'])
