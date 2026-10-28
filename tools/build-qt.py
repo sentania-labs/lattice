@@ -165,6 +165,24 @@ def stylesheet(tokens: dict, theme: str) -> str:
         rule(f'QScrollBar::handle:{orientation}:hover', background=t['ink-subtle'])
         rule(f'QScrollBar::add-line:{orientation}, QScrollBar::sub-line:{orientation}', **{'height' if orientation == 'vertical' else 'width': '0px'})
         rule(f'QScrollBar::add-page:{orientation}, QScrollBar::sub-page:{orientation}', background='transparent')
+    # QSS foreground declarations override Disabled palette roles. Actions can
+    # be disabled while their menu stays enabled, so target the item as well.
+    disabled = [
+        'QWidget:disabled', 'QLabel[lattice]:disabled',
+        'QLabel[lattice][status]:disabled',
+        'QMenu::item:disabled', 'QMenu::item:selected:disabled',
+        'QMenuBar::item:disabled', 'QMenuBar::item:selected:disabled',
+        'QGroupBox::title:disabled', 'QHeaderView::section:disabled',
+        'QTableCornerButton::section:disabled',
+        'QAbstractItemView::item:disabled',
+        'QAbstractItemView::item:selected:disabled',
+        'QListWidget[lattice="steps"]::item:selected:disabled',
+    ]
+    rule(', '.join(disabled), color=t['ink-subtle'])
+    rule('QAbstractItemView:disabled', selection_background_color=t['surface-sunken'],
+         selection_color=t['ink-subtle'])
+    rule('QAbstractItemView::item:selected:disabled, '
+         'QListWidget[lattice="steps"]::item:selected:disabled', background=t['surface-sunken'])
     return '\n\n'.join(out) + '\n'
 
 

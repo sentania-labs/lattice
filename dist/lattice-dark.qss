@@ -509,3 +509,16 @@ QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
 QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
   background: transparent;
 }
+
+QWidget:disabled, QLabel[lattice]:disabled, QLabel[lattice][status]:disabled, QMenu::item:disabled, QMenu::item:selected:disabled, QMenuBar::item:disabled, QMenuBar::item:selected:disabled, QGroupBox::title:disabled, QHeaderView::section:disabled, QTableCornerButton::section:disabled, QAbstractItemView::item:disabled, QAbstractItemView::item:selected:disabled, QListWidget[lattice="steps"]::item:selected:disabled {
+  color: #7f8896;
+}
+
+QAbstractItemView:disabled {
+  selection-background-color: #2a3038;
+  selection-color: #7f8896;
+}
+
+QAbstractItemView::item:selected:disabled, QListWidget[lattice="steps"]::item:selected:disabled {
+  background: #2a3038;
+}
