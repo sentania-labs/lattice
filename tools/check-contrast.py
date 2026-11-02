@@ -113,13 +113,14 @@ def check(tokens: dict, minimum: float = MINIMUM) -> list[dict]:
         base = values['surface'] if 'surface' in values else '#ffffff'
         for ground, ink in PAIRINGS:
             ratio = contrast_ratio(values[ink], values[ground], base)
+            # Compare the unrounded ratio; round only for display.
             rows.append({
                 'theme': theme,
                 'ground': ground,
                 'ink': ink,
                 'ratio': round(ratio, 2),
                 'minimum': minimum,
-                'ok': round(ratio, 2) >= minimum,
+                'ok': ratio >= minimum,
             })
     return rows
 

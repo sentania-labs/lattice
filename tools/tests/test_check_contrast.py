@@ -100,6 +100,23 @@ class PairingTests(unittest.TestCase):
             self.assertIsInstance(row['ratio'], float)
             self.assertIsInstance(row['ok'], bool)
 
+    def test_the_minimum_uses_the_unrounded_ratio(self):
+        # #6e7978 on white is 4.4976:1, which displays as 4.50 yet fails 4.5.
+        boundary = json.loads(json.dumps(IN_MEMORY))
+        for token in boundary['color']['tokens']:
+            if token['name'] == 'ink-subtle':
+                token['value']['light'] = '#6e7978'
+        self.assertAlmostEqual(check.contrast_ratio('#6e7978', '#ffffff'),
+                               4.4975956603938485, places=9)
+        rows = [r for r in check.check(boundary)
+                if r['theme'] == 'light' and (r['ground'], r['ink']) == ('surface', 'ink-subtle')]
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]['ratio'], 4.5)          # display is rounded
+        self.assertFalse(rows[0]['ok'])                    # the compare is not
+        self.assertIn('FAIL', subprocess.run(
+            [sys.executable, str(ROOT / 'tools/check-contrast.py')],
+            capture_output=True, text=True).stdout or '')
+
     def test_reports_a_failing_pairing_from_an_in_memory_token_set(self):
         broken = json.loads(json.dumps(IN_MEMORY))
         for token in broken['color']['tokens']:
