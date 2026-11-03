@@ -163,10 +163,16 @@ with current token values, both themes, and no external arrow assets.
 ```bash
 python3 tools/build-qt.py
 python3 tools/build-qt.py --check
+python3 tools/check-contrast.py
 python3 -m unittest discover -s tools/tests
 # Optional visual dependency: install PySide6 into your development environment.
 QT_QPA_PLATFORM=offscreen python3 tools/preview-qt.py --output /tmp/lattice-qt
 ```
+
+`check-contrast.py` asserts every text pairing in the brand book's "Using
+colour" table clears 4.5:1 in both themes, prints one row per pairing, and
+exits non-zero on the first shortfall. `--json` writes the rows to stdout for a
+caller's validation pipeline.
 
 The preview writes `lattice-light.png` and `lattice-dark.png` for visual review
 and rejects QSS parser warnings. No existing CSS freshness check or CI workflow
@@ -188,6 +194,7 @@ artifacts and can be run by a caller's validation pipeline.
 | `tools/build-qt.py` | Generates Qt artifacts; `--check` detects stale output without writing. |
 | `tools/preview-qt.py` | PySide6 offscreen component gallery for visual review. |
 | `tools/build-tokens.py` | Compiles `tokens.json` into `dist/tokens.css`. |
+| `tools/check-contrast.py` | Asserts the documented colour pairings clear 4.5:1 in both themes. |
 
 After editing `project/tokens.json`:
 
