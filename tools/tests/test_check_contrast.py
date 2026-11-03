@@ -114,7 +114,7 @@ class PairingTests(unittest.TestCase):
         self.assertEqual(rows[0]['ratio'], 4.5)          # display is rounded
         self.assertFalse(rows[0]['ok'])                    # the compare is not
         self.assertIn('FAIL', subprocess.run(
-            [sys.executable, str(ROOT / 'tools/check-contrast.py')],
+            [sys.executable, str(ROOT / 'tools/check-contrast.py'), '--minimum', '4.6'],
             capture_output=True, text=True).stdout or '')
 
     def test_reports_a_failing_pairing_from_an_in_memory_token_set(self):
@@ -152,7 +152,7 @@ class CliTests(unittest.TestCase):
     def test_json_mode_is_parseable(self):
         done = subprocess.run([sys.executable, str(ROOT / 'tools/check-contrast.py'), '--json'],
                               capture_output=True, text=True, cwd=os.fspath(ROOT))
-        self.assertEqual(done.returncode, 1)
+        self.assertEqual(done.returncode, 0)
         rows = json.loads(done.stdout)
         self.assertEqual(len(rows), 2 * len(check.PAIRINGS))
 

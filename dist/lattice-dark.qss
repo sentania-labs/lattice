@@ -95,7 +95,7 @@ QLabel[lattice="code-sm"] {
 }
 
 QLabel[lattice="section-label"] {
-  color: #7f8896;
+  color: #868f9c;
 }
 
 QLabel[lattice="label"] {
@@ -103,7 +103,7 @@ QLabel[lattice="label"] {
 }
 
 QLabel[lattice="hint"] {
-  color: #7f8896;
+  color: #868f9c;
 }
 
 QLabel[lattice="muted"] {
@@ -115,7 +115,7 @@ QLabel[lattice="hint"] {
 }
 
 QLabel[lattice="hint"][status="bad"] {
-  color: #d95926;
+  color: #e17c53;
 }
 
 QPushButton {
@@ -128,7 +128,7 @@ QPushButton {
 
 QPushButton:hover {
   background: #2a3038;
-  border-color: #7f8896;
+  border-color: #868f9c;
 }
 
 QPushButton:pressed, QPushButton:checked {
@@ -169,7 +169,7 @@ QPushButton[variant="danger"] {
 QPushButton[variant="danger"]:hover, QPushButton[variant="danger"]:pressed, QPushButton[variant="danger"]:checked {
   background: #d95926;
   color: #ffffff;
-  border-color: #7f8896;
+  border-color: #868f9c;
 }
 
 QPushButton:focus, QPushButton[variant="primary"]:focus, QPushButton[variant="ghost"]:focus, QPushButton[variant="danger"]:focus {
@@ -178,7 +178,7 @@ QPushButton:focus, QPushButton[variant="primary"]:focus, QPushButton[variant="gh
 
 QPushButton:disabled, QPushButton[variant="primary"]:disabled, QPushButton[variant="ghost"]:disabled, QPushButton[variant="danger"]:disabled {
   background: #2a3038;
-  color: #7f8896;
+  color: #868f9c;
   border-color: #363d47;
 }
 
@@ -192,7 +192,7 @@ QToolButton {
 
 QToolButton:hover {
   background: #2a3038;
-  border-color: #7f8896;
+  border-color: #868f9c;
 }
 
 QToolButton:pressed, QToolButton:checked {
@@ -233,7 +233,7 @@ QToolButton[variant="danger"] {
 QToolButton[variant="danger"]:hover, QToolButton[variant="danger"]:pressed, QToolButton[variant="danger"]:checked {
   background: #d95926;
   color: #ffffff;
-  border-color: #7f8896;
+  border-color: #868f9c;
 }
 
 QToolButton:focus, QToolButton[variant="primary"]:focus, QToolButton[variant="ghost"]:focus, QToolButton[variant="danger"]:focus {
@@ -242,7 +242,7 @@ QToolButton:focus, QToolButton[variant="primary"]:focus, QToolButton[variant="gh
 
 QToolButton:disabled, QToolButton[variant="primary"]:disabled, QToolButton[variant="ghost"]:disabled, QToolButton[variant="danger"]:disabled {
   background: #2a3038;
-  color: #7f8896;
+  color: #868f9c;
   border-color: #363d47;
 }
 
@@ -260,7 +260,7 @@ QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus, QComboBox:focus, QSpinBo
 
 QLineEdit:disabled, QTextEdit:disabled, QPlainTextEdit:disabled, QComboBox:disabled, QSpinBox:disabled, QDoubleSpinBox:disabled, QDateEdit:disabled, QTimeEdit:disabled, QDateTimeEdit:disabled {
   background: #2a3038;
-  color: #7f8896;
+  color: #868f9c;
 }
 
 QComboBox QLineEdit {
@@ -281,7 +281,7 @@ QCheckBox, QRadioButton {
 }
 
 QCheckBox:disabled, QRadioButton:disabled {
-  color: #7f8896;
+  color: #868f9c;
 }
 
 QTabWidget::pane {
@@ -306,7 +306,7 @@ QTabBar::tab:hover:!selected {
 }
 
 QTabBar::tab:disabled {
-  color: #7f8896;
+  color: #868f9c;
 }
 
 QLabel[lattice="banner"] {
@@ -330,7 +330,7 @@ QLabel[lattice="banner"][status="warn"] {
 
 QLabel[lattice="banner"][status="bad"] {
   background: rgba(217, 89, 38, 31);
-  color: #d95926;
+  color: #e17c53;
   border-left: 3px solid #d95926;
 }
 
@@ -359,7 +359,7 @@ QLabel[lattice="badge"][status="warn"] {
 
 QLabel[lattice="badge"][status="bad"] {
   background: rgba(217, 89, 38, 31);
-  color: #d95926;
+  color: #e17c53;
 }
 
 QLabel[lattice="badge"][status="info"] {
@@ -386,7 +386,7 @@ QLabel[lattice="pill"][status="warn"] {
 
 QLabel[lattice="pill"][status="bad"] {
   background: rgba(217, 89, 38, 31);
-  color: #d95926;
+  color: #e17c53;
 }
 
 QLabel[lattice="pill"][status="info"] {
@@ -476,7 +476,7 @@ QScrollBar::handle:vertical {
 }
 
 QScrollBar::handle:vertical:hover {
-  background: #7f8896;
+  background: #868f9c;
 }
 
 QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
@@ -499,7 +499,7 @@ QScrollBar::handle:horizontal {
 }
 
 QScrollBar::handle:horizontal:hover {
-  background: #7f8896;
+  background: #868f9c;
 }
 
 QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
@@ -511,12 +511,12 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
 }
 
 QWidget:disabled, QLabel[lattice]:disabled, QLabel[lattice][status]:disabled, QMenu::item:disabled, QMenu::item:selected:disabled, QMenuBar::item:disabled, QMenuBar::item:selected:disabled, QGroupBox::title:disabled, QHeaderView::section:disabled, QTableCornerButton::section:disabled, QAbstractItemView::item:disabled, QAbstractItemView::item:selected:disabled, QListWidget[lattice="steps"]::item:selected:disabled {
-  color: #7f8896;
+  color: #868f9c;
 }
 
 QAbstractItemView:disabled {
   selection-background-color: #2a3038;
-  selection-color: #7f8896;
+  selection-color: #868f9c;
 }
 
 QAbstractItemView::item:selected:disabled, QListWidget[lattice="steps"]::item:selected:disabled {
