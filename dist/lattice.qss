@@ -95,7 +95,7 @@ QLabel[lattice="code-sm"] {
 }
 
 QLabel[lattice="section-label"] {
-  color: #8b95a3;
+  color: #6c7788;
 }
 
 QLabel[lattice="label"] {
@@ -103,7 +103,7 @@ QLabel[lattice="label"] {
 }
 
 QLabel[lattice="hint"] {
-  color: #8b95a3;
+  color: #6c7788;
 }
 
 QLabel[lattice="muted"] {
@@ -128,7 +128,7 @@ QPushButton {
 
 QPushButton:hover {
   background: #eef1f5;
-  border-color: #8b95a3;
+  border-color: #6c7788;
 }
 
 QPushButton:pressed, QPushButton:checked {
@@ -169,7 +169,7 @@ QPushButton[variant="danger"] {
 QPushButton[variant="danger"]:hover, QPushButton[variant="danger"]:pressed, QPushButton[variant="danger"]:checked {
   background: #a22c1c;
   color: #ffffff;
-  border-color: #8b95a3;
+  border-color: #6c7788;
 }
 
 QPushButton:focus, QPushButton[variant="primary"]:focus, QPushButton[variant="ghost"]:focus, QPushButton[variant="danger"]:focus {
@@ -178,7 +178,7 @@ QPushButton:focus, QPushButton[variant="primary"]:focus, QPushButton[variant="gh
 
 QPushButton:disabled, QPushButton[variant="primary"]:disabled, QPushButton[variant="ghost"]:disabled, QPushButton[variant="danger"]:disabled {
   background: #eef1f5;
-  color: #8b95a3;
+  color: #6c7788;
   border-color: #d9dee5;
 }
 
@@ -192,7 +192,7 @@ QToolButton {
 
 QToolButton:hover {
   background: #eef1f5;
-  border-color: #8b95a3;
+  border-color: #6c7788;
 }
 
 QToolButton:pressed, QToolButton:checked {
@@ -233,7 +233,7 @@ QToolButton[variant="danger"] {
 QToolButton[variant="danger"]:hover, QToolButton[variant="danger"]:pressed, QToolButton[variant="danger"]:checked {
   background: #a22c1c;
   color: #ffffff;
-  border-color: #8b95a3;
+  border-color: #6c7788;
 }
 
 QToolButton:focus, QToolButton[variant="primary"]:focus, QToolButton[variant="ghost"]:focus, QToolButton[variant="danger"]:focus {
@@ -242,7 +242,7 @@ QToolButton:focus, QToolButton[variant="primary"]:focus, QToolButton[variant="gh
 
 QToolButton:disabled, QToolButton[variant="primary"]:disabled, QToolButton[variant="ghost"]:disabled, QToolButton[variant="danger"]:disabled {
   background: #eef1f5;
-  color: #8b95a3;
+  color: #6c7788;
   border-color: #d9dee5;
 }
 
@@ -260,7 +260,7 @@ QLineEdit:focus, QTextEdit:focus, QPlainTextEdit:focus, QComboBox:focus, QSpinBo
 
 QLineEdit:disabled, QTextEdit:disabled, QPlainTextEdit:disabled, QComboBox:disabled, QSpinBox:disabled, QDoubleSpinBox:disabled, QDateEdit:disabled, QTimeEdit:disabled, QDateTimeEdit:disabled {
   background: #eef1f5;
-  color: #8b95a3;
+  color: #6c7788;
 }
 
 QComboBox QLineEdit {
@@ -281,7 +281,7 @@ QCheckBox, QRadioButton {
 }
 
 QCheckBox:disabled, QRadioButton:disabled {
-  color: #8b95a3;
+  color: #6c7788;
 }
 
 QTabWidget::pane {
@@ -306,7 +306,7 @@ QTabBar::tab:hover:!selected {
 }
 
 QTabBar::tab:disabled {
-  color: #8b95a3;
+  color: #6c7788;
 }
 
 QLabel[lattice="banner"] {
@@ -476,7 +476,7 @@ QScrollBar::handle:vertical {
 }
 
 QScrollBar::handle:vertical:hover {
-  background: #8b95a3;
+  background: #6c7788;
 }
 
 QScrollBar::add-line:vertical, QScrollBar::sub-line:vertical {
@@ -499,7 +499,7 @@ QScrollBar::handle:horizontal {
 }
 
 QScrollBar::handle:horizontal:hover {
-  background: #8b95a3;
+  background: #6c7788;
 }
 
 QScrollBar::add-line:horizontal, QScrollBar::sub-line:horizontal {
@@ -511,12 +511,12 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal {
 }
 
 QWidget:disabled, QLabel[lattice]:disabled, QLabel[lattice][status]:disabled, QMenu::item:disabled, QMenu::item:selected:disabled, QMenuBar::item:disabled, QMenuBar::item:selected:disabled, QGroupBox::title:disabled, QHeaderView::section:disabled, QTableCornerButton::section:disabled, QAbstractItemView::item:disabled, QAbstractItemView::item:selected:disabled, QListWidget[lattice="steps"]::item:selected:disabled {
-  color: #8b95a3;
+  color: #6c7788;
 }
 
 QAbstractItemView:disabled {
   selection-background-color: #eef1f5;
-  selection-color: #8b95a3;
+  selection-color: #6c7788;
 }
 
 QAbstractItemView::item:selected:disabled, QListWidget[lattice="steps"]::item:selected:disabled {
