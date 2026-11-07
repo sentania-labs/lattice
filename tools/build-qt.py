@@ -104,8 +104,8 @@ def stylesheet(tokens: dict, theme: str) -> str:
                         dict(background=t['accent-strong'], color=t['on-accent'], border_color=t['accent-strong'])),
             'ghost': (dict(background='transparent', color=t['ink-muted'], border_color='transparent'),
                       dict(background=t['surface'], color=t['ink'], border_color=t['line'])),
-            'danger': (dict(background=t['bad'], color=t['on-bad'], border_color=t['bad']),
-                       dict(background=t['bad'], color=t['on-bad'], border_color=t['ink-subtle'])),
+            'danger': (dict(background=t['bad'], color='#ffffff', border_color=t['bad']),
+                       dict(background=t['bad'], color='#ffffff', border_color=t['ink-subtle'])),
         }
         for variant, (rest, active) in variants.items():
             sel = f'{widget}[variant="{variant}"]'

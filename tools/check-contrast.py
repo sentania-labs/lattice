@@ -45,7 +45,7 @@ PAIRINGS: list[tuple[str, str, str | None]] = [
     ('warn-soft', 'warn-ink', None),
     ('bad-soft', 'bad-ink', None),
     ('bad-soft', 'bad-ink', 'surface-sunken'),
-    ('bad', 'on-bad', None),
+    ('bad', '#ffffff', None),
 ]
 
 # Input, textarea and select outlines: (ground, border). The border is
@@ -135,7 +135,8 @@ def check(tokens: dict, minimum: float = MINIMUM) -> list[dict]:
         for ground, ink, over, required, kind in specs:
             # The translucent `-soft` fills sit on the card ground behind them.
             base = values[over or 'surface'] if (over or 'surface') in values else '#ffffff'
-            ratio = contrast_ratio(values[ink], values[ground], base)
+            ink_value = ink if ink.startswith('#') else values[ink]
+            ratio = contrast_ratio(ink_value, values[ground], base)
             # Compare the unrounded ratio; round only for display.
             rows.append({
                 'theme': theme,

@@ -34,7 +34,6 @@ IN_MEMORY = {
             {'name': 'warn-soft', 'value': {'light': '#fdf3d8', 'dark': 'rgba(224,164,0,0.09)'}},
             {'name': 'warn-ink', 'value': {'light': '#8a6100', 'dark': '#e0a400'}},
             {'name': 'bad', 'value': {'light': '#a22c1c', 'dark': '#c64e1e'}},
-            {'name': 'on-bad', 'value': {'light': '#ffffff', 'dark': '#ffffff'}},
             {'name': 'bad-soft', 'value': {'light': '#fbe9e6', 'dark': 'rgba(217,89,38,0.12)'}},
             {'name': 'bad-ink', 'value': {'light': '#7f1d1d', 'dark': '#d95926'}},
         ],
@@ -85,7 +84,7 @@ class PairingTests(unittest.TestCase):
             ('accent', 'on-accent', None), ('accent-strong', 'on-accent', None),
             ('accent-soft', 'accent-ink', None), ('ok-soft', 'ok-ink', None),
             ('warn-soft', 'warn-ink', None), ('bad-soft', 'bad-ink', None),
-            ('bad-soft', 'bad-ink', 'surface-sunken'), ('bad', 'on-bad', None),
+            ('bad-soft', 'bad-ink', 'surface-sunken'), ('bad', '#ffffff', None),
         }
         self.assertEqual({tuple(p) for p in check.PAIRINGS}, documented)
 
@@ -96,7 +95,8 @@ class PairingTests(unittest.TestCase):
             for ground, ink, _ in check.PAIRINGS:
                 with self.subTest(theme=theme, pair=(ground, ink)):
                     self.assertIn(ground, values)
-                    self.assertIn(ink, values)
+                    if not ink.startswith('#'):
+                        self.assertIn(ink, values)
 
     def test_checks_every_pairing_in_both_themes(self):
         rows = check.check(IN_MEMORY)
@@ -162,7 +162,7 @@ class ContrastGapTests(unittest.TestCase):
     def test_danger_button_label_clears_4_5_in_both_themes(self):
         for theme in ('light', 'dark'):
             with self.subTest(theme=theme):
-                self.assertTrue(self.rows()[('bad', 'on-bad', None, theme)]['ok'])
+                self.assertTrue(self.rows()[('bad', '#ffffff', None, theme)]['ok'])
 
     def test_bad_ink_holds_on_surface_sunken(self):
         for theme in ('light', 'dark'):

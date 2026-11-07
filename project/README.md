@@ -59,7 +59,7 @@ an administrator staring at a VCF console all day is already in.
 | `ok-soft` | `ok-ink` |
 | `warn-soft` | `warn-ink` |
 | `bad-soft` | `bad-ink` (also over `surface-sunken`) |
-| `bad` | `on-bad` |
+| `bad` | white (`#ffffff`) |
 
 Two rules that are not negotiable:
 

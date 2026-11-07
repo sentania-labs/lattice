@@ -60,7 +60,7 @@ a { color: var(--link); }
 .lat-btn--danger {
   background: var(--bad);
   border-color: var(--bad);
-  color: var(--on-bad);
+  color: #ffffff;
   font-weight: 600;
 }
 
