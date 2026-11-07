@@ -115,7 +115,7 @@ QLabel[lattice="hint"] {
 }
 
 QLabel[lattice="hint"][status="bad"] {
-  color: #e17c53;
+  color: #ea8c64;
 }
 
 QPushButton {
@@ -161,13 +161,13 @@ QPushButton[variant="ghost"]:hover, QPushButton[variant="ghost"]:pressed, QPushB
 }
 
 QPushButton[variant="danger"] {
-  background: #d95926;
+  background: #c64e1e;
   color: #ffffff;
-  border-color: #d95926;
+  border-color: #c64e1e;
 }
 
 QPushButton[variant="danger"]:hover, QPushButton[variant="danger"]:pressed, QPushButton[variant="danger"]:checked {
-  background: #d95926;
+  background: #c64e1e;
   color: #ffffff;
   border-color: #868f9c;
 }
@@ -225,13 +225,13 @@ QToolButton[variant="ghost"]:hover, QToolButton[variant="ghost"]:pressed, QToolB
 }
 
 QToolButton[variant="danger"] {
-  background: #d95926;
+  background: #c64e1e;
   color: #ffffff;
-  border-color: #d95926;
+  border-color: #c64e1e;
 }
 
 QToolButton[variant="danger"]:hover, QToolButton[variant="danger"]:pressed, QToolButton[variant="danger"]:checked {
-  background: #d95926;
+  background: #c64e1e;
   color: #ffffff;
   border-color: #868f9c;
 }
@@ -249,7 +249,7 @@ QToolButton:disabled, QToolButton[variant="primary"]:disabled, QToolButton[varia
 QLineEdit, QTextEdit, QPlainTextEdit, QComboBox, QSpinBox, QDoubleSpinBox, QDateEdit, QTimeEdit, QDateTimeEdit {
   background: #23282f;
   color: #f2f4f7;
-  border: 1px solid #363d47;
+  border: 1px solid #868f9c;
   border-radius: 6px;
   padding: 6px;
 }
@@ -330,8 +330,8 @@ QLabel[lattice="banner"][status="warn"] {
 
 QLabel[lattice="banner"][status="bad"] {
   background: rgba(217, 89, 38, 31);
-  color: #e17c53;
-  border-left: 3px solid #d95926;
+  color: #ea8c64;
+  border-left: 3px solid #c64e1e;
 }
 
 QLabel[lattice="banner"][status="info"] {
@@ -359,7 +359,7 @@ QLabel[lattice="badge"][status="warn"] {
 
 QLabel[lattice="badge"][status="bad"] {
   background: rgba(217, 89, 38, 31);
-  color: #e17c53;
+  color: #ea8c64;
 }
 
 QLabel[lattice="badge"][status="info"] {
@@ -386,7 +386,7 @@ QLabel[lattice="pill"][status="warn"] {
 
 QLabel[lattice="pill"][status="bad"] {
   background: rgba(217, 89, 38, 31);
-  color: #e17c53;
+  color: #ea8c64;
 }
 
 QLabel[lattice="pill"][status="info"] {

@@ -46,7 +46,7 @@ def palette(t: dict[str, str]) -> dict:
         'AlternateBase': 'surface-sunken', 'Text': 'ink',
         'Button': 'surface', 'ButtonText': 'ink', 'BrightText': 'on-accent',
         'Highlight': 'accent', 'HighlightedText': 'on-accent',
-        'ToolTipBase': 'surface', 'ToolTipText': 'ink', 'Link': 'accent',
+        'ToolTipBase': 'surface', 'ToolTipText': 'ink', 'Link': 'link',
         'LinkVisited': 'accent-ink', 'PlaceholderText': 'ink-subtle',
         'Light': 'surface', 'Midlight': 'surface-sunken', 'Mid': 'line',
         'Dark': 'line', 'Shadow': 'line', 'Accent': 'accent',
@@ -118,7 +118,7 @@ def stylesheet(tokens: dict, theme: str) -> str:
              color=t['ink-subtle'], border_color=t['line'])
     fields = ['QLineEdit', 'QTextEdit', 'QPlainTextEdit', 'QComboBox', 'QSpinBox', 'QDoubleSpinBox', 'QDateEdit', 'QTimeEdit', 'QDateTimeEdit']
     rule(', '.join(fields), background=t['surface'], color=t['ink'],
-         border=f"1px solid {t['line']}", border_radius=t['radius-lg'], padding=t['space-3'])
+         border=f"1px solid {t['ink-subtle']}", border_radius=t['radius-lg'], padding=t['space-3'])
     rule(', '.join(f + ':focus' for f in fields), border_color=t['focus'])
     rule(', '.join(f + ':disabled' for f in fields), background=t['surface-sunken'], color=t['ink-subtle'])
     rule('QComboBox QLineEdit', border='none', padding='0px', background='transparent')

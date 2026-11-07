@@ -1,5 +1,8 @@
 #!/usr/bin/env python3
-"""Assert every documented Lattice text pairing clears WCAG 2.x 4.5:1.
+"""Assert every documented Lattice pairing clears WCAG 2.x contrast.
+
+Text pairings need 4.5:1 (SC 1.4.3). Form-control borders need 3:1 against
+the ground they sit on (SC 1.4.11).
 
 The brand book (`project/README.md`, "Using colour") states which ink sits on
 which ground. This checks those pairings against `project/tokens.json` in both
@@ -18,24 +21,39 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 MINIMUM = 4.5
+CONTROL_MINIMUM = 3.0
 
-# (ground, ink) pairs, in the order the brand book's table lists them.
-# Adding a pairing is a one-line change here; nothing else in this file
-# enumerates them.
-PAIRINGS: list[tuple[str, str]] = [
-    ('bg', 'ink'),
-    ('bg', 'ink-muted'),
-    ('surface', 'ink'),
-    ('surface', 'ink-muted'),
+# (ground, ink, over) text pairs, in the order the brand book's table lists
+# them. `over` is the opaque ground a translucent `ground` is composited on, or
+# None for the default (surface). Adding a pairing is a one-line change here;
+# nothing else in this file enumerates them.
+PAIRINGS: list[tuple[str, str, str | None]] = [
+    ('bg', 'ink', None),
+    ('bg', 'ink-muted', None),
+    ('bg', 'link', None),
+    ('surface', 'ink', None),
+    ('surface', 'ink-muted', None),
+    ('surface', 'ink-subtle', None),
+    ('surface', 'link', None),
+    ('surface-sunken', 'ink', None),
+    ('surface-sunken', 'ink-muted', None),
+    ('surface-sunken', 'link', None),
+    ('accent', 'on-accent', None),
+    ('accent-strong', 'on-accent', None),
+    ('accent-soft', 'accent-ink', None),
+    ('ok-soft', 'ok-ink', None),
+    ('warn-soft', 'warn-ink', None),
+    ('bad-soft', 'bad-ink', None),
+    ('bad-soft', 'bad-ink', 'surface-sunken'),
+    ('bad', '#ffffff', None),
+]
+
+# Input, textarea and select outlines: (ground, border). The border is
+# ink-subtle, and the ground is wherever a control can sit or be disabled.
+CONTROL_BORDER_PAIRINGS: list[tuple[str, str]] = [
+    ('bg', 'ink-subtle'),
     ('surface', 'ink-subtle'),
-    ('surface-sunken', 'ink'),
-    ('surface-sunken', 'ink-muted'),
-    ('accent', 'on-accent'),
-    ('accent-strong', 'on-accent'),
-    ('accent-soft', 'accent-ink'),
-    ('ok-soft', 'ok-ink'),
-    ('warn-soft', 'warn-ink'),
-    ('bad-soft', 'bad-ink'),
+    ('surface-sunken', 'ink-subtle'),
 ]
 
 
@@ -105,22 +123,30 @@ def contrast_ratio(value_a: str, value_b: str, base: str = '#ffffff') -> float:
 
 
 def check(tokens: dict, minimum: float = MINIMUM) -> list[dict]:
-    """One row per documented pairing per theme, in table order."""
+    """One row per pairing per theme: text pairings, control borders."""
     rows: list[dict] = []
+    # (ground, ink, over, required, kind)
+    specs = [(g, i, o, minimum, 'text') for g, i, o in PAIRINGS]
+    # A lowered --minimum lowers the control floor too, never raises it.
+    specs += [(g, i, None, min(CONTROL_MINIMUM, minimum), 'control border')
+              for g, i in CONTROL_BORDER_PAIRINGS]
     for theme in (t['id'] for t in tokens['color']['themes']):
         values = resolve(tokens, theme)
-        # The translucent `-soft` fills sit on the card ground behind them.
-        base = values['surface'] if 'surface' in values else '#ffffff'
-        for ground, ink in PAIRINGS:
-            ratio = contrast_ratio(values[ink], values[ground], base)
+        for ground, ink, over, required, kind in specs:
+            # The translucent `-soft` fills sit on the card ground behind them.
+            base = values[over or 'surface'] if (over or 'surface') in values else '#ffffff'
+            ink_value = ink if ink.startswith('#') else values[ink]
+            ratio = contrast_ratio(ink_value, values[ground], base)
             # Compare the unrounded ratio; round only for display.
             rows.append({
                 'theme': theme,
                 'ground': ground,
                 'ink': ink,
+                'over': over,
+                'kind': kind,
                 'ratio': round(ratio, 2),
-                'minimum': minimum,
-                'ok': ratio >= minimum,
+                'minimum': required,
+                'ok': ratio >= required,
             })
     return rows
 
@@ -135,7 +161,11 @@ def main() -> None:
     tokens = json.loads((ROOT / 'project' / 'tokens.json').read_text(encoding='utf-8'))
     rows = check(tokens, args.minimum)
 
-    width = max(len(f"{r['ground']} / {r['ink']}") for r in rows)
+    def label(r: dict) -> str:
+        ground = r['ground'] + (f" on {r['over']}" if r['over'] else '')
+        return f"{ground} / {r['ink']}" + (' (border)' if r['kind'] == 'control border' else '')
+
+    width = max(len(label(r)) for r in rows)
     failures = [r for r in rows if not r['ok']]
 
     if args.json:
@@ -148,15 +178,17 @@ def main() -> None:
 
     report(f"{'theme':6}  {'pairing':<{width}}  {'ratio':>6}  status")
     for row in rows:
-        report(f"{row['theme']:6}  {row['ground'] + ' / ' + row['ink']:<{width}}"
+        report(f"{row['theme']:6}  {label(row):<{width}}"
                f"  {row['ratio']:>6.2f}  {'ok' if row['ok'] else 'FAIL'}")
     if failures:
-        report(f"\n{len(failures)} pairing(s) below {args.minimum}:1")
+        report(f"\n{len(failures)} pairing(s) below {args.minimum}:1 (text) / "
+               f"{min(CONTROL_MINIMUM, args.minimum)}:1 (control borders)")
         for row in failures:
-            report(f"  {row['theme']}: {row['ground']} / {row['ink']}"
-                   f" = {row['ratio']:.2f}:1")
+            report(f"  {row['theme']}: {label(row)}"
+                   f" = {row['ratio']:.2f}:1 (needs {row['minimum']}:1)")
         raise SystemExit(1)
-    report(f"\nAll {len(rows)} pairings clear {args.minimum}:1")
+    report(f"\nAll {len(rows)} pairings clear {args.minimum}:1"
+           f" (text) / {min(CONTROL_MINIMUM, args.minimum)}:1 (control borders)")
 
 
 if __name__ == '__main__':

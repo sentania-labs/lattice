@@ -26,12 +26,14 @@ IN_MEMORY = {
             {'name': 'accent', 'value': {'light': '#1f5fbf', 'dark': '#3987e5'}},
             {'name': 'accent-strong', 'value': {'light': '#1a4fa0', 'dark': '#5a9cec'}},
             {'name': 'on-accent', 'value': {'light': '#ffffff', 'dark': '#0b1220'}},
+            {'name': 'link', 'value': {'light': '{accent}', 'dark': '{accent-strong}'}},
             {'name': 'accent-soft', 'value': {'light': '#e8f0fc', 'dark': 'rgba(57,135,229,0.16)'}},
             {'name': 'accent-ink', 'value': {'light': '#12376f', 'dark': '#8fbcf5'}},
             {'name': 'ok-soft', 'value': {'light': '#e6f4ec', 'dark': 'rgba(25,158,112,0.16)'}},
             {'name': 'ok-ink', 'value': {'light': '#14532d', 'dark': '#67c9a2'}},
             {'name': 'warn-soft', 'value': {'light': '#fdf3d8', 'dark': 'rgba(224,164,0,0.09)'}},
             {'name': 'warn-ink', 'value': {'light': '#8a6100', 'dark': '#e0a400'}},
+            {'name': 'bad', 'value': {'light': '#a22c1c', 'dark': '#c64e1e'}},
             {'name': 'bad-soft', 'value': {'light': '#fbe9e6', 'dark': 'rgba(217,89,38,0.12)'}},
             {'name': 'bad-ink', 'value': {'light': '#7f1d1d', 'dark': '#d95926'}},
         ],
@@ -74,12 +76,15 @@ class RatioMathTests(unittest.TestCase):
 class PairingTests(unittest.TestCase):
     def test_pairing_list_covers_the_brand_book_table(self):
         documented = {
-            ('bg', 'ink'), ('bg', 'ink-muted'),
-            ('surface', 'ink'), ('surface', 'ink-muted'), ('surface', 'ink-subtle'),
-            ('surface-sunken', 'ink'), ('surface-sunken', 'ink-muted'),
-            ('accent', 'on-accent'), ('accent-strong', 'on-accent'),
-            ('accent-soft', 'accent-ink'), ('ok-soft', 'ok-ink'),
-            ('warn-soft', 'warn-ink'), ('bad-soft', 'bad-ink'),
+            ('bg', 'ink', None), ('bg', 'ink-muted', None), ('bg', 'link', None),
+            ('surface', 'ink', None), ('surface', 'ink-muted', None),
+            ('surface', 'ink-subtle', None), ('surface', 'link', None),
+            ('surface-sunken', 'ink', None), ('surface-sunken', 'ink-muted', None),
+            ('surface-sunken', 'link', None),
+            ('accent', 'on-accent', None), ('accent-strong', 'on-accent', None),
+            ('accent-soft', 'accent-ink', None), ('ok-soft', 'ok-ink', None),
+            ('warn-soft', 'warn-ink', None), ('bad-soft', 'bad-ink', None),
+            ('bad-soft', 'bad-ink', 'surface-sunken'), ('bad', '#ffffff', None),
         }
         self.assertEqual({tuple(p) for p in check.PAIRINGS}, documented)
 
@@ -87,14 +92,15 @@ class PairingTests(unittest.TestCase):
         tokens = json.loads((ROOT / 'project/tokens.json').read_text())
         for theme in ('light', 'dark'):
             values = check.resolve(tokens, theme)
-            for ground, ink in check.PAIRINGS:
+            for ground, ink, _ in check.PAIRINGS:
                 with self.subTest(theme=theme, pair=(ground, ink)):
                     self.assertIn(ground, values)
-                    self.assertIn(ink, values)
+                    if not ink.startswith('#'):
+                        self.assertIn(ink, values)
 
     def test_checks_every_pairing_in_both_themes(self):
         rows = check.check(IN_MEMORY)
-        self.assertEqual(len(rows), 2 * len(check.PAIRINGS))
+        self.assertEqual(len(rows), 2 * (len(check.PAIRINGS) + len(check.CONTROL_BORDER_PAIRINGS)))
         self.assertEqual({r['theme'] for r in rows}, {'light', 'dark'})
         for row in rows:
             self.assertIsInstance(row['ratio'], float)
@@ -109,7 +115,8 @@ class PairingTests(unittest.TestCase):
         self.assertAlmostEqual(check.contrast_ratio('#6e7978', '#ffffff'),
                                4.4975956603938485, places=9)
         rows = [r for r in check.check(boundary)
-                if r['theme'] == 'light' and (r['ground'], r['ink']) == ('surface', 'ink-subtle')]
+                if r['theme'] == 'light' and r['kind'] == 'text'
+                and (r['ground'], r['ink']) == ('surface', 'ink-subtle')]
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]['ratio'], 4.5)          # display is rounded
         self.assertFalse(rows[0]['ok'])                    # the compare is not
@@ -135,8 +142,47 @@ class PairingTests(unittest.TestCase):
                for r in check.check(json.loads((ROOT / 'project/tokens.json').read_text()))}
         # 3.64:1 is the #1 value, recorded here once the on-accent token landed.
         self.assertEqual(rows[('accent', 'on-accent', 'dark')], 5.15)
-        self.assertEqual({r['ground'] for r in check.check(IN_MEMORY) if not r['ok']},
+        self.assertEqual({r['ground'] for r in check.check(IN_MEMORY)
+                          if not r['ok'] and (r['ground'], r['ink'], r['over']) in check.PAIRINGS},
                          {'surface', 'bad-soft'})
+
+
+class ContrastGapTests(unittest.TestCase):
+    """The three gaps the vCenter API Simulator UX report measured, held shut."""
+
+    def rows(self):
+        tokens = json.loads((ROOT / 'project/tokens.json').read_text())
+        return {(r['ground'], r['ink'], r['over'], r['theme']): r for r in check.check(tokens)}
+
+    def test_dark_links_clear_4_5_on_every_ground(self):
+        for ground in ('bg', 'surface', 'surface-sunken'):
+            with self.subTest(ground=ground):
+                self.assertTrue(self.rows()[(ground, 'link', None, 'dark')]['ok'])
+
+    def test_danger_button_label_clears_4_5_in_both_themes(self):
+        for theme in ('light', 'dark'):
+            with self.subTest(theme=theme):
+                self.assertTrue(self.rows()[('bad', '#ffffff', None, theme)]['ok'])
+
+    def test_bad_ink_holds_on_surface_sunken(self):
+        for theme in ('light', 'dark'):
+            with self.subTest(theme=theme):
+                row = self.rows()[('bad-soft', 'bad-ink', 'surface-sunken', theme)]
+                self.assertTrue(row['ok'])
+
+    def test_control_borders_clear_3_to_1_in_both_themes(self):
+        for theme in ('light', 'dark'):
+            for ground in ('bg', 'surface', 'surface-sunken'):
+                with self.subTest(theme=theme, ground=ground):
+                    row = next(r for r in self.rows().values()
+                               if r['kind'] == 'control border' and r['theme'] == theme
+                               and r['ground'] == ground)
+                    self.assertEqual(row['minimum'], 3.0)
+                    self.assertTrue(row['ok'])
+
+    def test_a_line_coloured_border_would_fail(self):
+        # The pre-fix input border: `line` on surface, 1.35:1 light.
+        self.assertLess(check.contrast_ratio('#d9dee5', '#ffffff'), 3.0)
 
 
 class CliTests(unittest.TestCase):
@@ -144,7 +190,7 @@ class CliTests(unittest.TestCase):
         command = [sys.executable, str(ROOT / 'tools/check-contrast.py')]
         strict = subprocess.run([*command, '--minimum', '1'], capture_output=True, text=True)
         self.assertEqual(strict.returncode, 0)
-        self.assertIn('All 26 pairings clear 1.0:1', strict.stdout)
+        self.assertIn('All 42 pairings clear 1.0:1', strict.stdout)
         loose = subprocess.run([*command, '--minimum', '9'], capture_output=True, text=True)
         self.assertEqual(loose.returncode, 1)
         self.assertIn('below 9.0:1', loose.stdout)
@@ -154,7 +200,7 @@ class CliTests(unittest.TestCase):
                               capture_output=True, text=True, cwd=os.fspath(ROOT))
         self.assertEqual(done.returncode, 0)
         rows = json.loads(done.stdout)
-        self.assertEqual(len(rows), 2 * len(check.PAIRINGS))
+        self.assertEqual(len(rows), 42)
 
 
 if __name__ == '__main__':
