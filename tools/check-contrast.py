@@ -23,34 +23,29 @@ ROOT = Path(__file__).resolve().parent.parent
 MINIMUM = 4.5
 CONTROL_MINIMUM = 3.0
 
-# (ground, ink) pairs, in the order the brand book's table lists them.
-# Adding a pairing is a one-line change here; nothing else in this file
-# enumerates them.
-PAIRINGS: list[tuple[str, str]] = [
-    ('bg', 'ink'),
-    ('bg', 'ink-muted'),
-    ('surface', 'ink'),
-    ('surface', 'ink-muted'),
-    ('surface', 'ink-subtle'),
-    ('surface-sunken', 'ink'),
-    ('surface-sunken', 'ink-muted'),
-    ('accent', 'on-accent'),
-    ('accent-strong', 'on-accent'),
-    ('accent-soft', 'accent-ink'),
-    ('ok-soft', 'ok-ink'),
-    ('warn-soft', 'warn-ink'),
-    ('bad-soft', 'bad-ink'),
-]
-
-# Pairings the brand-book table does not list. (ground, ink, over): `over` is
-# the opaque ground a translucent `ground` is composited on, or None for the
-# default (surface).
-EXTRA_TEXT_PAIRINGS: list[tuple[str, str, str | None]] = [
+# (ground, ink, over) text pairs, in the order the brand book's table lists
+# them. `over` is the opaque ground a translucent `ground` is composited on, or
+# None for the default (surface). Adding a pairing is a one-line change here;
+# nothing else in this file enumerates them.
+PAIRINGS: list[tuple[str, str, str | None]] = [
+    ('bg', 'ink', None),
+    ('bg', 'ink-muted', None),
     ('bg', 'link', None),
+    ('surface', 'ink', None),
+    ('surface', 'ink-muted', None),
+    ('surface', 'ink-subtle', None),
     ('surface', 'link', None),
+    ('surface-sunken', 'ink', None),
+    ('surface-sunken', 'ink-muted', None),
     ('surface-sunken', 'link', None),
-    ('bad', 'on-bad', None),
+    ('accent', 'on-accent', None),
+    ('accent-strong', 'on-accent', None),
+    ('accent-soft', 'accent-ink', None),
+    ('ok-soft', 'ok-ink', None),
+    ('warn-soft', 'warn-ink', None),
+    ('bad-soft', 'bad-ink', None),
     ('bad-soft', 'bad-ink', 'surface-sunken'),
+    ('bad', 'on-bad', None),
 ]
 
 # Input, textarea and select outlines: (ground, border). The border is
@@ -128,11 +123,10 @@ def contrast_ratio(value_a: str, value_b: str, base: str = '#ffffff') -> float:
 
 
 def check(tokens: dict, minimum: float = MINIMUM) -> list[dict]:
-    """One row per pairing per theme: brand-book text, extra text, control borders."""
+    """One row per pairing per theme: text pairings, control borders."""
     rows: list[dict] = []
     # (ground, ink, over, required, kind)
-    specs = [(g, i, None, minimum, 'text') for g, i in PAIRINGS]
-    specs += [(g, i, o, minimum, 'text') for g, i, o in EXTRA_TEXT_PAIRINGS]
+    specs = [(g, i, o, minimum, 'text') for g, i, o in PAIRINGS]
     # A lowered --minimum lowers the control floor too, never raises it.
     specs += [(g, i, None, min(CONTROL_MINIMUM, minimum), 'control border')
               for g, i in CONTROL_BORDER_PAIRINGS]

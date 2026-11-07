@@ -77,12 +77,15 @@ class RatioMathTests(unittest.TestCase):
 class PairingTests(unittest.TestCase):
     def test_pairing_list_covers_the_brand_book_table(self):
         documented = {
-            ('bg', 'ink'), ('bg', 'ink-muted'),
-            ('surface', 'ink'), ('surface', 'ink-muted'), ('surface', 'ink-subtle'),
-            ('surface-sunken', 'ink'), ('surface-sunken', 'ink-muted'),
-            ('accent', 'on-accent'), ('accent-strong', 'on-accent'),
-            ('accent-soft', 'accent-ink'), ('ok-soft', 'ok-ink'),
-            ('warn-soft', 'warn-ink'), ('bad-soft', 'bad-ink'),
+            ('bg', 'ink', None), ('bg', 'ink-muted', None), ('bg', 'link', None),
+            ('surface', 'ink', None), ('surface', 'ink-muted', None),
+            ('surface', 'ink-subtle', None), ('surface', 'link', None),
+            ('surface-sunken', 'ink', None), ('surface-sunken', 'ink-muted', None),
+            ('surface-sunken', 'link', None),
+            ('accent', 'on-accent', None), ('accent-strong', 'on-accent', None),
+            ('accent-soft', 'accent-ink', None), ('ok-soft', 'ok-ink', None),
+            ('warn-soft', 'warn-ink', None), ('bad-soft', 'bad-ink', None),
+            ('bad-soft', 'bad-ink', 'surface-sunken'), ('bad', 'on-bad', None),
         }
         self.assertEqual({tuple(p) for p in check.PAIRINGS}, documented)
 
@@ -90,15 +93,14 @@ class PairingTests(unittest.TestCase):
         tokens = json.loads((ROOT / 'project/tokens.json').read_text())
         for theme in ('light', 'dark'):
             values = check.resolve(tokens, theme)
-            for ground, ink in check.PAIRINGS:
+            for ground, ink, _ in check.PAIRINGS:
                 with self.subTest(theme=theme, pair=(ground, ink)):
                     self.assertIn(ground, values)
                     self.assertIn(ink, values)
 
     def test_checks_every_pairing_in_both_themes(self):
         rows = check.check(IN_MEMORY)
-        self.assertEqual(len(rows), 2 * (len(check.PAIRINGS) + len(check.EXTRA_TEXT_PAIRINGS)
-                                         + len(check.CONTROL_BORDER_PAIRINGS)))
+        self.assertEqual(len(rows), 2 * (len(check.PAIRINGS) + len(check.CONTROL_BORDER_PAIRINGS)))
         self.assertEqual({r['theme'] for r in rows}, {'light', 'dark'})
         for row in rows:
             self.assertIsInstance(row['ratio'], float)
@@ -141,7 +143,7 @@ class PairingTests(unittest.TestCase):
         # 3.64:1 is the #1 value, recorded here once the on-accent token landed.
         self.assertEqual(rows[('accent', 'on-accent', 'dark')], 5.15)
         self.assertEqual({r['ground'] for r in check.check(IN_MEMORY)
-                          if not r['ok'] and (r['ground'], r['ink']) in check.PAIRINGS},
+                          if not r['ok'] and (r['ground'], r['ink'], r['over']) in check.PAIRINGS},
                          {'surface', 'bad-soft'})
 
 
