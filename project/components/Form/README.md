@@ -9,6 +9,9 @@ it disappears exactly when the person needs it.
 switches it to `bad-ink` rather than to `bad`, so the message stays readable in
 both themes.
 
+The control outline is `ink-subtle`, not `line`, so the boundary clears 3:1 against
+its ground in both themes. Disabled controls keep it.
+
 `.lat-textarea` sets the mono family, because a textarea in these tools almost
 always holds keys, paths or raw content where alignment matters.
 

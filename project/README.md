@@ -51,14 +51,15 @@ an administrator staring at a VCF console all day is already in.
 
 | Ground | Text on it |
 | --- | --- |
-| `bg` | `ink`, `ink-muted` |
-| `surface` | `ink`, `ink-muted`, `ink-subtle` for metadata |
-| `surface-sunken` | `ink`, `ink-muted` |
+| `bg` | `ink`, `ink-muted`, `link` |
+| `surface` | `ink`, `ink-muted`, `ink-subtle` for metadata, `link` |
+| `surface-sunken` | `ink`, `ink-muted`, `link` |
 | `accent`, `accent-strong` | `on-accent` |
 | `accent-soft` | `accent-ink` |
 | `ok-soft` | `ok-ink` |
 | `warn-soft` | `warn-ink` |
-| `bad-soft` | `bad-ink` |
+| `bad-soft` | `bad-ink` (also over `surface-sunken`) |
+| `bad` | `on-bad` |
 
 Two rules that are not negotiable:
 
@@ -68,6 +69,15 @@ Two rules that are not negotiable:
 2. **A state colour never appears without its `-soft` ground or its `-ink`
    partner.** `bad` on `surface` as body text is a contrast failure waiting for a
    theme change; `bad-ink` on `bad-soft` is not.
+
+Links use `link`, not `accent`: they are the same in light, but in dark the
+accent is 4.08:1 on `surface` and `link` is `accent-strong`.
+
+Form controls (input, textarea, select) are outlined in `ink-subtle`, not
+`line`. `line` is 1.35:1 on `surface`, which is fine for decoration and not for
+the boundary of something a person has to find and click; WCAG 1.4.11 asks for
+3:1 and `ink-subtle` clears it on `bg`, `surface` and `surface-sunken` in both
+themes. `line` stays on cards, tables and every other structural rule.
 
 `focus` is an alias of `accent` on purpose. A focus ring that changes colour with
 the state of the thing it is on stops reading as focus.
