@@ -170,11 +170,11 @@ QT_QPA_PLATFORM=offscreen python3 tools/preview-qt.py --output /tmp/lattice-qt
 ```
 
 `check-contrast.py` asserts every text pairing in the brand book's "Using
-colour" table, plus link text, the danger label, `bad-ink` over
+colour" table, plus link text, the danger label and `bad-ink` over
 `surface-sunken`, clears 4.5:1 in both themes, and that the `ink-subtle`
 form-control outline clears 3:1 on `bg`, `surface` and `surface-sunken`. It
-prints one row per pairing and exits non-zero on any shortfall. `--json` writes the rows to stdout for a
-caller's validation pipeline.
+prints one row per pairing and exits non-zero on any shortfall. `--json`
+writes the rows to stdout for a caller's validation pipeline.
 
 The preview writes `lattice-light.png` and `lattice-dark.png` for visual review
 and rejects QSS parser warnings. No existing CSS freshness check or CI workflow
